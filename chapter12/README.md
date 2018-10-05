@@ -75,7 +75,8 @@ SpringCloud Ribbon 客户端负载均衡
 
 服务注册表：
 ------------
-	
+
+![服务注册与发现](https://github.com/lwx57280/Spring-Cloud-learning/blob/master/chapter12/img-folder/Discovery.jpg)
 	
 	服务注册表是一个记录当前可用服务实例的网络信息的数据库，是服务发现机制的核心。服务注册表提供查询API
 	和管理API，使用查询API获得可用的服务实例，使用管理API实现注册和注销！
@@ -104,7 +105,8 @@ Eureka还提供了客户端缓存的机制，即使所有的Eureka Server都挂�
 
 Ribbon工作时分为两步：
 --------------------
-
+	
+![Ribbon架构](https://github.com/lwx57280/Spring-Cloud-learning/blob/master/chapter12/img-folder/Ribbon.jpg)
     
 	第一步先选择Eureka Server，它优先选择在同一个Zone且负载较少的Server；
 	第二步再根据用户指定的策略，从Server取到的服务注册列表中选择一个地址。其中Ribbon
