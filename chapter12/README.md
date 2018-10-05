@@ -39,7 +39,7 @@ Spring Cloud 包含多个子项目（针对分布式系统中涉及的多个不�
 	
 * Spring Cloud Bus:事件、消息总线、用于传播集群中的状态变化或事件，以触发后续的处理，比如用来动态刷新配置等。
 
-* Spring Cloud Cluster:正对Zookeeper、Redis、Hazelcast、Consul的选举算法和通用状态模式的实现。
+* Spring Cloud Cluster:针对Zookeeper、Redis、Hazelcast、Consul的选举算法和通用状态模式的实现。
 * Spring Cloud Cloudfoundry:与Pivotal Cloudfoundry的整合支持。
 * Spring Cloud Stream：通过Redis、Rabbit或者Kafka实现的消费微服务，可以通过简单的声明式模型来发送和接收消息。
 * Spring Cloud AWS:用于简化整合Amazon Web Service的组件。
