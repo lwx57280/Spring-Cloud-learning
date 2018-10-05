@@ -1,0 +1,19 @@
+# 指定Hello 服务名称为hello-service,服务名推荐小写
+spring:
+  application:
+    name: hello-service
+    instance_id: hello
+  cloud:
+    config:
+      enabled: true
+      discovery:
+        enabled: true
+        service-id: hello-server #
+eureka:
+  instance:
+    non-secure-port: ${server.port:1111}
+    prefer-ip-address: true   # 指定ip 地址,默认为false
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${server.port}}  # 指定应用名称和应用端口
+  client:
+    service-url:
+      defaultZone: http://user:password123@localhost:${eureka.port:8761}/eureka/

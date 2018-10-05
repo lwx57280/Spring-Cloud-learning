@@ -1,0 +1,4 @@
+# 开发环境下
+spring:
+  jpa:
+    database: HSQL 
