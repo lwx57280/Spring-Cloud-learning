@@ -1,3 +1,4 @@
+# 指定provider-user服务名称为provider-user,服务名推荐小写
 spring:
   application:
     name: provider-user
@@ -15,6 +16,8 @@ spring:
 eureka:
   instance:
     non-secure-port: ${server.port:7900}
+    prefer-ip-address: true
+    instanceId: ${spring.application.name}:${spring.cloud.config.discovery.service-id:${server.port:8761}}  # 指定应用名称和应用端口
   client:
     service-url:
       defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/  # 指定服务注册中心的位置
