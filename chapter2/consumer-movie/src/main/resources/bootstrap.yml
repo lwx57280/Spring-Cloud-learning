@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: consumer-movie-ribbon
+eureka:
+  instance:
+    non-secure-port: ${server.port:7901}
+    prefer-ip-address: true   # 指定ip 地址,默认为false
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
+

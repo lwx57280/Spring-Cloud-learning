@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: provider-user
+  jpa:
+    hibernate:
+      ddl-auto: none
+    generate-ddl: false
+    show-sql: true
+  datasource:
+    platform: h2
+    schema: classpath:schema.sql
+    data: classpath:data.sql
+
+
+eureka:
+  instance:
+    non-secure-port: ${server.port:7900}
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/  # 指定服务注册中心的位置
+logging:
+  level:
+    root: INFO
+    org.hibernate: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE  #   show parameters for hibernate sql 专为 Hibernate 定制
+    org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
+    com.learn: DEBUG

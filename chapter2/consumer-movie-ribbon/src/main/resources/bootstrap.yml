@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: consumer-movie-ribbon
+
+user:
+  userServicePath: http://provider-user/simple/
+eureka:
+  instance:
+    non-secure-port: ${server.port:8010}
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
+
