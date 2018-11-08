@@ -1,6 +1,6 @@
 spring:
   application:
-    name: consumer-movie-ribbon
+    name: consumer-movie
 eureka:
   instance:
     non-secure-port: ${server.port:7901}

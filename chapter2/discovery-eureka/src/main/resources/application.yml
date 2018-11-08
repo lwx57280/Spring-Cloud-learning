@@ -1,16 +1,18 @@
+# å½“å‰Eureka ServeræœåŠ¡çš„ç«¯å£å·ä¸º8761
 server:
   port: 8761
 
+#å½“å‰Eureka Serverçš„hostnameä¸ºlocalhost
 eureka:
   instance:
     hostname: localhost
   client:
-    register-with-eureka: false #µ±Ç°·şÎñ²»ĞèÒªµ½Eureka ServerÉÏ×¢²á
-    fetch-registry: false       # ×¢²áÖĞĞÄµÄÖ°Ôğ¾ÍÊÇÎ¬»¤·şÎñÊµÀı£¬Òò´ËËü²¢²»ĞèÒªÈ¥¼ìË÷·şÎñ£¬ËùÒÔÉèÖÃÎªfalse
+    register-with-eureka: false #å½“å‰æœåŠ¡ä¸éœ€è¦åˆ°Eureka Serverä¸Šæ³¨å†Œ
+    fetch-registry: false       # æ³¨å†Œä¸­å¿ƒçš„èŒè´£å°±æ˜¯ç»´æŠ¤æœåŠ¡å®ä¾‹ï¼Œå› æ­¤å®ƒå¹¶ä¸éœ€è¦å»æ£€ç´¢æœåŠ¡ï¼Œæ‰€ä»¥è®¾ç½®ä¸ºfalse
     service-url:
-      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/  # Ö¸¶¨·şÎñ×¢²áÖĞĞÄµÄÎ»ÖÃ
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/  # æŒ‡å®šæœåŠ¡æ³¨å†Œä¸­å¿ƒçš„ä½ç½®
 
-# ×·¼ÓÃÜÂëµÄÅäÖÃÏî
+# è¿½åŠ å¯†ç çš„é…ç½®é¡¹
 #security:
 #  user:
 #    name: user
