@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: consumer-movie-ribbon
+
+user:
+  userServicePath: http://provider-user/simple/
+eureka:
+  instance:
+    non-secure-port: ${server.port:8010}
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
+ribbon: # Ribbon脱离Eureka使用
+  eureka:
+   enabled: false
+provider-user:
+  ribbon:
+    listOfServers: localhost:7900
