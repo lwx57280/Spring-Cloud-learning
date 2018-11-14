@@ -10,7 +10,6 @@
 
 	<name>chapter12</name>
 	<description>Demo project for Spring Boot</description>
-
 	<modules>
 		<!-- 子模块都写在此处 -->
 		<module>config</module>
