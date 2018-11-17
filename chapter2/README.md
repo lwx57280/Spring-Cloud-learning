@@ -1,6 +1,9 @@
 **Hystrix微服务的容错处理**
 -------------------------
    
+![Hystrix微服务](https://github.com/lwx57280/Spring-Cloud-learning/blob/master/chapter2/img-folder/hystrix1.jpg)
+
+
 服务提供者在调用服务消费时，如果服务提供者响应非常缓慢，那么消费者对提供者的请求会被强制等待，直到提供者响应或者
 HTTP请求超时。在高负载的情况下，如果不作任何处理，此类问题可能会导致服务消费者的资源耗尽甚至出现雪崩效应。
 雪崩效应：基础服务故障导致级联故障，进而造成整个系统不可用，这种现象称为雪崩效应，想要防止雪崩效应，必须有一个强
@@ -33,7 +36,7 @@ HTTP请求超时。在高负载的情况下，如果不作任何处理，此类�
     3、	分流
     4、	自我修复（断路器状态的切换）。
     
-![Hystrix服务容错](hystrix.png)
+![Hystrix服务容错](https://github.com/lwx57280/Spring-Cloud-learning/blob/master/chapter2/img-folder/hystrix.png)
 
 
 引入 Spring Cloud Hystrix依赖
