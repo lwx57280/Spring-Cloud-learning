@@ -18,6 +18,7 @@
         <module>consumer-movie-feign</module>
         <module>consumer-movie-ribbon</module>
         <module>consumer-movie-ribbon-without-eureka</module>
+        <module>consumer-movie-ribbon-with-hystrix</module>
         <module>provider-user</module>
 
     </modules>
