@@ -1,0 +1,145 @@
+**Hystrix微服务的容错处理**
+-------------------------
+   
+服务提供者在调用服务消费时，如果服务提供者响应非常缓慢，那么消费者对提供者的请求会被强制等待，直到提供者响应或者
+HTTP请求超时。在高负载的情况下，如果不作任何处理，此类问题可能会导致服务消费者的资源耗尽甚至出现雪崩效应。
+雪崩效应：基础服务故障导致级联故障，进而造成整个系统不可用，这种现象称为雪崩效应，想要防止雪崩效应，必须有一个强
+大的容错机制，该容器机制需要实现以下两点：
+
+1、	为网络请求设置超时机制
+    通常情况下，一次远程调用对应着一个线程/进程。如果响应太慢，这个线程/进程就得不到释放。而线程/进程又对应着系
+    统资源，如果大量进程/线程得不到释放，并且越积越多，服务资源就会耗尽，从而导致服务不可用，所以必须为每个请求
+    设置超时机制。
+    
+2、	断路器模式
+    试想一下，家庭里如果没有断路器，电流过载了（例如功率过大、短路等），电路不断开，电路就会升温，甚至是烧断电路
+    、起火。有了断路器之后，当电路过载时，会自动切断电路（跳闸），从而保护了整条电路与家庭的安全。当电流过载的问
+    题被解决后，只要将关闭断路器，电路就又可以工作了。
+
+同样的道理，当依赖的服务有大量超时时，再让新的请求无访问已经没有太大意义，只会无谓的消耗现有资源。譬如我们设置了
+超时时间为1秒，如果短时间内有大量的请求（譬如50个）在1秒内都得不到响应，就往往意味着异常。此时就没有必要让更多的
+请求去访问这个依赖了，我们应该使用断路器避免资源浪费。
+
+断路器可以实现快速失败，如果它在一段时间内侦测到许多类似的错误（譬如超时），就会强迫其以后的多个调用快速失败，不
+在请求所依赖的服务，从而放置应用程序不断地尝试执行可能会失败的操作，这样应用程序可以继续执行而不用等待修正错误，
+或者浪费 CPU时间去等待长时间的超时。断路器也可以使应用程序能够诊断错误是否已经修正，如果已经修正，应用程序会再次
+尝试调用操作。
+断路器模式就像是那些容易导致错误的操作一种代理。这种代理能够记录最近调用发生错误的次数，然后决定使用允许操作继续
+，或者立即返回错误。
+
+    
+1、	监控、总共请求多少次，有多少次失败  假设失败率达到 了10%断路器打开。
+    2、	断路器的状态
+    3、	分流
+    4、	自我修复（断路器状态的切换）。
+    
+![Hystrix服务容错](hystrix.png)
+
+
+引入 Spring Cloud Hystrix依赖
+
+    <dependency>
+       <groupId>org.springframework.cloud</groupId>
+       <artifactId>spring-cloud-starter-hystrix</artifactId>
+    </dependency>
+
+工程的主类上使用 @EnableCircuitBreaker 注解开启断路器功能：
+    
+    package com.learn.movie.ribbon;
+    
+    import org.springframework.boot.SpringApplication;
+    import org.springframework.boot.autoconfigure.SpringBootApplication;
+    import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+    import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+    import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+    import org.springframework.context.annotation.Bean;
+    import org.springframework.web.client.RestTemplate;
+    
+    @SpringBootApplication
+    @EnableEurekaClient
+    @EnableCircuitBreaker
+    public class ConsumerMovieRibbonWithHystrixApplication {
+    
+       @Bean
+       @LoadBalanced
+       public RestTemplate restTemplate() {
+          return new RestTemplate();
+       }
+    
+       public static void main(String[] args) {
+          SpringApplication.run(ConsumerMovieRibbonWithHystrixApplication.class, args);
+       }
+    }
+
+    　注：此处还可以使用 Spring Cloud 应用中的 @SpringCloudApplication 注解来修饰主类，该注解的具体定义如下。可以看到，该注解中包含了上述所引用的三个注解，这意味着一个 Spring Cloud 标准应用应包含服务发现以及断路器。
+    //
+    // Source code recreated from a .class file by IntelliJ IDEA
+    // (powered by Fernflower decompiler)
+    //
+    
+    package org.springframework.cloud.client;
+    
+    import java.lang.annotation.Documented;
+    import java.lang.annotation.ElementType;
+    import java.lang.annotation.Inherited;
+    import java.lang.annotation.Retention;
+    import java.lang.annotation.RetentionPolicy;
+    import java.lang.annotation.Target;
+    import org.springframework.boot.autoconfigure.SpringBootApplication;
+    import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+    import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+    
+    @Target({ElementType.TYPE})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Documented
+    @Inherited
+    @SpringBootApplication
+    @EnableDiscoveryClient
+    @EnableCircuitBreaker
+    public @interface SpringCloudApplication {
+    }
+
+
+•	改造服务消费方式，新增 UserService 类，注入 RestTemplate 实例。然后，将在 ConsumerController 中对 RestTemplate 的使用迁移到 helloService 函数中，最后，在 helloService 函数上增加 @HystrixCommand 注解来指定回调方法。
+
+    package com.learn.movie.ribbon.service;
+    
+    import com.learn.movie.ribbon.domain.User;
+    import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.beans.factory.annotation.Value;
+    import org.springframework.stereotype.Service;
+    import org.springframework.web.client.RestTemplate;
+    
+    @Service
+    public class UserService {
+    
+    
+        @Autowired
+        private RestTemplate restTemplate;
+    
+        @Value(value = "${user.userServicePath}")
+        private String userServicePath;
+    
+    
+        /**
+         *  使用@HystrixCommand的fallbackMethod参数指定，当本方法调用失败时，调用后备方法findByIdFallBack
+         * @param id
+         * @return
+         */
+        @HystrixCommand(fallbackMethod = "findByIdFallBack")
+        public User findById(Long id) {
+            return this.restTemplate.getForObject(this.userServicePath + id, User.class);
+        }
+    
+    
+        private User findByIdFallBack(Long id){
+            User user = new User();
+            user.setId(0L);
+            return user;
+        }
+    }
+
+
+
+•	修改 ConsumerController 类， 注入上面实现的 HelloService 实例，并在 helloConsumer 中进行调用：
