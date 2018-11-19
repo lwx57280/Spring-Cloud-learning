@@ -10,7 +10,7 @@ HTTP请求超时。在高负载的情况下，如果不作任何处理，此类�
 如果下图所示：A作为服务提供者，B为A的服务消费者，C和D是B的服务消费者。A不可用引起了B的不可用，并将不可用像滚雪球
 一样放大到C和D时，雪崩效应就形成了。
 
-![Hystrix服务容错](hystrix-1.png)
+![Hystrix服务容错](https://github.com/lwx57280/Spring-Cloud-learning/blob/master/chapter2/img-folder/hystrix-1.png)
 
 熔断器（CircuitBreaker）
 
@@ -22,7 +22,7 @@ HTTP请求超时。在高负载的情况下，如果不作任何处理，此类�
     熔断器模式就像是那些容易导致错误的操作的一种代理。这种代理能够记录最近调用发生错误的次数，然后决定使用允许操
     作继续，或者立即返回错误。 熔断器开关相互转换的逻辑如下图：
 
-![熔断器](hystrix-2.png)
+![熔断器](https://github.com/lwx57280/Spring-Cloud-learning/blob/master/chapter2/img-folder/hystrix-2.png)
 
 熔断器就是保护服务高可用的最后一道防线。
 
@@ -59,7 +59,7 @@ Feign Hystrix
 bootstrap.yml添加这一条：
 
 
-![feign-hystrix](feign-hystrix.jpg)
+![feign-hystrix](https://github.com/lwx57280/Spring-Cloud-learning/blob/master/chapter2/img-folder/feign-hystrix.jpg)
 
 
 
