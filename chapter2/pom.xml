@@ -16,6 +16,7 @@
         <module>discovery-eureka</module>
         <module>consumer-movie</module>
         <module>consumer-movie-feign</module>
+        <module>consumer-movie-feign-with-hystrix</module>
         <module>consumer-movie-ribbon</module>
         <module>consumer-movie-ribbon-without-eureka</module>
         <module>consumer-movie-ribbon-with-hystrix</module>
