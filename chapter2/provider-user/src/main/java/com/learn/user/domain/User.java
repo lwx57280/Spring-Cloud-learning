@@ -23,4 +23,13 @@ public class User implements Serializable{
     private Integer age;
     @Column
     private BigDecimal balance;
+
+    public User() {
+    }
+
+    public User(Long id, String username) {
+        super();
+        this.id = id;
+        this.username = username;
+    }
 }
