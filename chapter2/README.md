@@ -206,3 +206,39 @@ bootstrap.yml添加这一条：
 •	修改 ConsumerController 类， 注入上面实现的 HelloService 实例，并在 helloConsumer 中进行调用：
 
 
+
+**SpringCloud-Feign使用fallbackFactory属性打印fallback异常**
+
+> Feign使用fallbackFactory属性打印fallback异常;
+
+> fallbackFactory 是fallback的一个升级版；
+
+
+![factory](consumer-movie-feign-with-hystrix-factory/img-folder/factory.jpg)
+
+
+![ClientFactory](consumer-movie-feign-with-hystrix-factory/img-folder/ClientFactory.jpg)
+
+> Feign使用fallbackFactory属性打印fallback异常;
+ 
+ *  fallbackFactory 是fallback的一个升级版；
+ *  fallback 不可同时存在否则冲突，不生效
+ 
+![UserFeignClient](consumer-movie-feign-with-hystrix-factory/img-folder/UserFeignClient.jpg)
+
+
+__说明：__
+
+    1）将fallback注释掉；
+
+    2）采用fallbackFactory的方式；
+    
+__说明：__
+
+   如果需要访问作为回退触发器的原因，则可以使用@FeignClient中的fallbackFactory属性。
+
+   为指定的客户端接口定义一个回退工厂。回退工厂必须产生回退类的实例，这些实例实现由FeignClient注释的接口。
+
+   如果同时设置fallback和fallbackfactory不可以的，会有有冲突，fallback生效，fallbackfactory不能使用，
+      fallbackFactory 是fallback的一个升级版，注释fallback设置即可；
+
