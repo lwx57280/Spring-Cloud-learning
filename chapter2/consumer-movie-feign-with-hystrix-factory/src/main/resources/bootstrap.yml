@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: consumer-movie-feign-with-hystrix-factory
+eureka:
+  instance:
+    non-secure-port: ${server.port:7901}
+    prefer-ip-address: true   # 指定ip 地址,默认为false
+#    leaseExpirationDurationInSeconds: 5
+  client:
+    healthcheck:
+      enabled: true   # 健康检查
+#    initialInstanceInfoReplicationIntervalSeconds: 5
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/  # Eureka注册中心的地址
+#断路器配置
+feign:
+  hystrix:
+    # 在feign中开启hystrix功能，默认情况下feign不开启hystrix功能
+    enabled: true
+
+
+
