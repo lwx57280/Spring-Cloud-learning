@@ -1,9 +1,9 @@
 spring:
   application:
-    name: consumer-movie-feign-hystrix
+    name: consumer-movie-feign-with-hystrix
 eureka:
   instance:
-    non-secure-port: ${server.port:8010}
+    non-secure-port: ${server.port:8082}
   client:
     service-url:
       defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/  # Eureka注册中心的地址
