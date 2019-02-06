@@ -2,9 +2,9 @@ package com.learn.movie;
 
 
 import com.learn.movie.domain.User;
+import feign.RequestLine;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
@@ -20,8 +20,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @FeignClient(name ="provider-user",/*fallback = UserHystrixFeignClientFallback.class,*/fallbackFactory = HystrixClientFactory.class)
 public interface UserFeignClient {
-
-    @RequestMapping(value = "/simple/{id}",method = RequestMethod.GET)
+    /**
+     * spring boot 项目需要调用其它项目的接口试使用spring cloud feign声明式调用。
+     * @param id
+     * @return
+     */
+    @RequestLine(value = "GET/simple/{id}")
     User findById(@PathVariable("id") Long id);
 
 }
