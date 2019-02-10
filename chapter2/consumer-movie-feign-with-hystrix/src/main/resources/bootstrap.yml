@@ -7,6 +7,9 @@ eureka:
   client:
     service-url:
       defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/  # Eureka注册中心的地址
+
+#hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000
+#hystrix.command.default.execution.timeout.enabled: false
 #断路器配置
 feign:
   hystrix:
