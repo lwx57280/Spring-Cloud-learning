@@ -22,8 +22,12 @@
         <module>consumer-movie-ribbon</module>
         <module>hystrix-dashboard</module>
         <module>hystrix-turbine</module>
+        <module>hystrix-turbine2</module>
+        <module>hystrix-turbine3</module>
         <module>consumer-movie-ribbon-without-eureka</module>
         <module>consumer-movie-ribbon-with-hystrix</module>
+        <module>consumer-movie-ribbon-with-hystrix2</module>
+        <module>consumer-movie-ribbon-with-hystrix3</module>
         <module>provider-user</module>
 
     </modules>
