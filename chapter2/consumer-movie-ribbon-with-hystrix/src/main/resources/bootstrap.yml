@@ -1,6 +1,6 @@
 spring:
   application:
-    name: consumer-movie-ribbon-hystrix
+    name: consumer-movie-ribbon-with-hystrix
 
 user:
   userServicePath: http://provider-user/simple/
