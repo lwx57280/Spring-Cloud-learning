@@ -1,6 +1,6 @@
 spring:
   application:
-    name: consumer-movie-ribbon
+    name: consumer-movie-ribbon-without-eureka
 
 user:
   userServicePath: http://provider-user/simple/
