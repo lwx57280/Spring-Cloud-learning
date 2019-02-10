@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: consumer-movie-feign-hystrix
+
+#user:
+#  userServicePath: http://provider-user/simple/
+eureka:
+  instance:
+    non-secure-port: ${server.port:8081}
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/  # Eureka注册中心的地址,如果多个以逗号分割
+#断路器配置
+feign:
+  hystrix:
+    # 在feign中开启hystrix功能，默认情况下feign不开启hystrix功能
+    enabled: true
+
+# Feign Logging 日志配置，com.learn.config.UserFeignClient是Feign Client接口类的完整类名
+# Feign的日志仅仅只有在DEBUG级别时才会响应。
+logging:
+  level:
+    com.learn.config.UserFeignClient: DEBUG
+
+
