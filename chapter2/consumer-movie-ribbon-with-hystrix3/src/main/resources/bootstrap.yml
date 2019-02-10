@@ -1,0 +1,22 @@
+#一个应用具备2个端口，一个管理端口一个访问端口
+management:  # spring-boot-starter-acturator管理端口
+  port: 8081
+
+spring:
+  application:
+    name: consumer-movie-ribbon-with-hystrix3
+
+user:
+  userServicePath: http://provider-user/simple/
+eureka:
+  instance:
+    non-secure-port: ${server.port:8010}
+    prefer-ip-address: true
+    #home-page-url-path: /ribbon
+    metadata-map:
+      metadate.port: 8081
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
+
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000
