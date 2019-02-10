@@ -2,6 +2,7 @@ package com.learn.movie;
 
 
 import com.learn.movie.domain.User;
+import feign.Param;
 import feign.RequestLine;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,7 @@ public interface UserFeignClient {
      * @param id
      * @return
      */
-    @RequestLine(value = "GET/simple/{id}")
-    User findById(@PathVariable("id") Long id);
+    @RequestLine(value = "GET /simple/{id}")
+    User findById(@Param("id") Long id);
 
 }
