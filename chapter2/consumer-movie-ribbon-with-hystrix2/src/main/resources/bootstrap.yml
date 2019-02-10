@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: consumer-movie-ribbon-with-hystrix2
+
+user:
+  userServicePath: http://provider-user/simple/
+eureka:
+  instance:
+    non-secure-port: ${server.port:8010}
+    prefer-ip-address: true
+    home-page-url-path: /ribbon
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
+
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000
+

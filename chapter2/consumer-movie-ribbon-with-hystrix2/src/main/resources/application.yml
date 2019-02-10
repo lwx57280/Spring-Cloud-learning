@@ -1,0 +1,3 @@
+server:
+  port: 8010
+  context-path: /ribbon   #url的前缀
