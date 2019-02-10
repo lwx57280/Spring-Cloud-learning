@@ -13,4 +13,9 @@ public class UserHystrixFeignClientFallback implements UserFeignClient {
 
         return user;
     }
+
+    @Override
+    public User postUser(User user) {
+        return user;
+    }
 }
