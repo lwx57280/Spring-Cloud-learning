@@ -20,6 +20,8 @@
         <module>consumer-movie-feign-hystrix</module>
         <module>consumer-movie-feign-with-hystrix-factory</module>
         <module>consumer-movie-ribbon</module>
+        <module>hystrix-dashboard</module>
+        <module>hystrix-turbine</module>
         <module>consumer-movie-ribbon-without-eureka</module>
         <module>consumer-movie-ribbon-with-hystrix</module>
         <module>provider-user</module>
