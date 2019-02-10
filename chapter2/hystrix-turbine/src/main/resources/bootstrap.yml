@@ -15,8 +15,14 @@ eureka:
     service-url:
       defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/  # 指定服务注册中心的位置
 
+# Turbine集群监控配置
 turbine:
   aggregator:
-    clusterConfig: default # 指定聚合那些集群、多个使用“，”分割，默认default
-  appConfig: consumer-movie-ribbon-with-hystrix,consumer-movie-feign-with-hystrix
-  clusterNameExpression: "'default'"
+    clusterConfig: default
+  app-config-list:  consumer-movie-ribbon-with-hystrix,consumer-movie-feign-with-hystrix
+  cluster-name-expression: "'default'"
+
+logging:
+  level:
+    root: INFO
+    com.netflix.turbine.monitor: DEBUG
