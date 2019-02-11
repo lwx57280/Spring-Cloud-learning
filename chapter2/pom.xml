@@ -14,6 +14,7 @@
     <modules>
         <!-- 子模块都写在此处 -->
         <module>discovery-eureka</module>
+        <module>discovery-gateway-zuul</module>
         <module>consumer-movie</module>
         <module>consumer-movie-feign</module>
         <module>consumer-movie-feign-with-hystrix</module>
