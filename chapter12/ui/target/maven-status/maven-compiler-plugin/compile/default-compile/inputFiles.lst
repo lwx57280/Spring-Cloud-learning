@@ -1,0 +1,6 @@
+D:\Spring Cloud\Spring-Cloud-learning\chapter12\ui\src\main\java\com\learn\ui\UiApplication.java
+D:\Spring Cloud\Spring-Cloud-learning\chapter12\ui\src\main\java\com\learn\ui\service\PersonHystrixService.java
+D:\Spring Cloud\Spring-Cloud-learning\chapter12\ui\src\main\java\com\learn\ui\service\PersonService.java
+D:\Spring Cloud\Spring-Cloud-learning\chapter12\ui\src\main\java\com\learn\ui\controller\UiController.java
+D:\Spring Cloud\Spring-Cloud-learning\chapter12\ui\src\main\java\com\learn\ui\domain\Person.java
+D:\Spring Cloud\Spring-Cloud-learning\chapter12\ui\src\main\java\com\learn\ui\service\SomeHystrixService.java

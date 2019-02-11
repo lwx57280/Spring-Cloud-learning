@@ -1,0 +1,18 @@
+# 指定Person 服务名称为person,服务名推荐小写
+spring:
+  application:
+    name: person
+  cloud:
+    config:
+      enabled: true
+      discovery:
+        enabled: true
+        service-id: CONFIG #1
+eureka:
+  instance:
+    non-secure-port: ${server.port:8082}
+    prefer-ip-address: true   # 指定ip 地址,默认为false
+    instanceId: ${spring.application.name}:${spring.cloud.config.discovery.service-id:${server.port:8761}}  # 指定应用名称和应用端口
+  client:
+    service-url:
+      defaultZone: http://user:password123@localhost:${eureka.port:8761}/eureka/

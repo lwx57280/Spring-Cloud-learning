@@ -1,0 +1,31 @@
+# 指定provider-user服务名称为provider-user,服务名推荐小写
+spring:
+  application:
+    name: hystrix-turbine2
+
+eureka:
+  instance:
+    non-secure-port: ${server.port:8031}
+    prefer-ip-address: false
+    instanceId: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.cloud.config.discovery.service-id:${server.port:8761}}  # 指定应用名称和应用端口,这时实例名字就是主机ip地址+端口号
+#  client:
+#    healthcheck:      # 健康检查配置
+#      enabled: true
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/  # 指定服务注册中心的位置
+
+
+turbine:
+  aggregator:
+    clusterConfig: CONSUMER-MOVIE-RIBBON-WITH-HYSTRIX2
+  appConfig: consumer-movie-ribbon-with-hystrix2
+
+
+
+turbine.instanceUrlSuffix.CONSUMER-MOVIE-RIBBON-WITH-HYSTRIX2: /ribbon/hystrix.stream
+
+logging:
+  level:
+    root: INFO
+    com.netflix.turbine.monitor: DEBUG
+

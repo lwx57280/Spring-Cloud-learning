@@ -1,0 +1,4 @@
+com\learn\person\domain\Person.class
+com\learn\person\controller\PersonController.class
+com\learn\person\PersonApplication.class
+com\learn\person\dao\PersonRepository.class

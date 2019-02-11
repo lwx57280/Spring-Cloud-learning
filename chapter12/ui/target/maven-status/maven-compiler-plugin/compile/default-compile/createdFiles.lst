@@ -1,0 +1,6 @@
+com\learn\ui\service\PersonHystrixService.class
+com\learn\ui\domain\Person.class
+com\learn\ui\controller\UiController.class
+com\learn\ui\service\SomeHystrixService.class
+com\learn\ui\service\PersonService.class
+com\learn\ui\UiApplication.class
