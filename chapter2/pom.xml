@@ -17,6 +17,7 @@
         <module>discovery-gateway-zuul</module>
         <module>discovery-gateway-zuul-prefix</module>
         <module>discovery-gateway-zuul-reg-exp</module>
+        <module>microservice-file-upload</module>
         <module>consumer-movie</module>
         <module>consumer-movie-feign</module>
         <module>consumer-movie-feign-with-hystrix</module>
