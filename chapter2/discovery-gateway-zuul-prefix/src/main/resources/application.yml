@@ -1,0 +1,27 @@
+server:
+  port: 8040
+
+spring:
+  application:
+    name: discovery-gateway-zuul-prefix
+#当前Eureka Server的hostname为localhost
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  datacenter: cloud     # Eureka DataCenter的配置
+  environment: product  # Eureka Environment的配置
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
+zuul:
+  ignore-security-headers: false
+
+logging:
+  level:
+    com.netflix: debug
+# 追加密码的配置项
+#security:
+#  user:
+#    name: user
+#    password: password123
