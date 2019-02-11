@@ -1,0 +1,33 @@
+server:
+  port: 8050
+
+spring:
+  application:
+    name: microservice-file-upload
+  http:
+    multipart:
+      enabled: true            # 启用http上传处理
+      max-file-size: 2000Mb      # Max file size 默认1M
+      max-request-size: 2500Mb   # Max request size 默认10M
+      file-size-threshold: 1MB  # 当上传文件达到1MB的时候进行磁盘写入
+      location: /  # 上传的临时目录
+#当前Eureka Server的hostname为localhost
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/     # 指定服务注册中心的位置
+
+# 暴露所有端点
+management:
+ security:
+   enabled: false
+#####################################################################################################
+# 打印日志
+logging:
+  level:
+    root: INFO
+    com.springms: DEBUG
+    com.netflix: debug
+#####################################################################################################

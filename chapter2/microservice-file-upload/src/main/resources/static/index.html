@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<!-- 注意：1、由于在spring-cloud-zuul-api-gateway-upload配置了path为upload，故在访问这里的上传的action前面需要加上path前缀路径；2、由于上传的文件名含有中文名，故在上传路径前面加上zuul即可解决乱码 -->
+<form method="POST" enctype="multipart/form-data" action="/upload">
+    File to upload:
+    <input type="file" name="file">
+    <input type="submit" value="Upload">
+</form>
+</body>
+</html>
