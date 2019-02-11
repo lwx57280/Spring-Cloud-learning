@@ -12,9 +12,32 @@ eureka:
   environment: product  # Eureka Environment的配置
   client:
     service-url:
-      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/     # 指定服务注册中心的位置
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/  # 指定服务注册中心的位置
+zuul:
+  routes:
+    uploadfile:
+      path: /upload/**
+      serviceId: microservice-file-upload  #反向代理到这个服务
 
-# 追加密码的配置项
+
+#####################################################################################################
+# 打印日志
+logging:
+  level:
+    root: INFO
+    com.springms: DEBUG
+    com.netflix: debug
+#####################################################################################################
+
+#####################################################################################################
+#设置ribbon的请求超时时间，大文件上传必须调高此时间
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 60000
+#####################################################################################################
+
+
+# 追加密码的配置 项
 #security:
 #  user:
 #    name: user
