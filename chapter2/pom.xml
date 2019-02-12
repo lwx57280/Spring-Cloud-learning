@@ -15,6 +15,7 @@
         <!-- 子模块都写在此处 -->
         <module>discovery-eureka</module>
         <module>discovery-gateway-zuul</module>
+        <module>discovery-gateway-zuul-fallback</module>
         <module>discovery-gateway-zuul-prefix</module>
         <module>discovery-gateway-zuul-reg-exp</module>
         <module>microservice-file-upload</module>
