@@ -11,7 +11,7 @@
 *  run：过滤器的具体逻辑。在该函数中，我们可以实现自定义的过滤逻辑，来确定是否要拦截当前的请求，不对其进行后续的
    路由，或是在请求路由返回结果之后，对处理结果做一些加工等。
 
-![ZuulFilter](https://github.com/lwx57280/Spring-Cloud-learning/chapter2/discovery-gateway-zuul-filter/img-folder/zuulFilter.png)
+![ZuulFilter](https://github.com/lwx57280/Spring-Cloud-learning/blob/master/chapter2/discovery-gateway-zuul-filter/img-folder/zuulFilter.png)
 
 从上图中，我们可以看到，当外部HTTP请求到达API网关服务的时候，首先它会进入第一个阶段pre，在这里它会被pre类型的过滤器
 进行处理，该类型的过滤器主要目的是在进行请求路由之前做一些前置加工，比如请求的校验等。
@@ -26,7 +26,7 @@
 
 Zuul自带的核心过滤器
 
-![ZuulFilter-core](https://github.com/lwx57280/Spring-Cloud-learning/chapter2/discovery-gateway-zuul-filter/img-folder/20170815174535018.png)
+![ZuulFilter-core](https://github.com/lwx57280/Spring-Cloud-learning/blob/master/chapter2/discovery-gateway-zuul-filter/img-folder/20170815174535018.png)
 
 
 
@@ -79,4 +79,4 @@ PreDecorationFilter：它的执行顺序为5，是pre阶段最后被执行的过
 * SendResponseFilter：它的执行顺序为1000，是post阶段最后执行的过滤器。该过滤器会检查请求上下文中是否包含请求响应相关的头信息、响应数据流或是响应体，只有在包含它们其中一个的时候就会执行处理逻辑。而该过滤器的处理逻辑就是利用请求上下文的响应信息来组织需要发送回客户端的响应内容。
 
 
-![ZuulFilter-lever](https://github.com/lwx57280/Spring-Cloud-learning/chapter2/discovery-gateway-zuul-filter/img-folder/zuulFilter-lever.png)
+![ZuulFilter-lever](https://github.com/lwx57280/Spring-Cloud-learning/blob/master/chapter2/discovery-gateway-zuul-filter/img-folder/zuulFilter-lever.png)
