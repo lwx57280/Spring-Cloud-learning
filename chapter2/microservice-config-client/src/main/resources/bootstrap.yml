@@ -1,0 +1,33 @@
+## bootstrap 负责加载外部资源配置属性
+# 在Eureka Server注册的服务名为config
+spring:
+  application:
+    name: configClient #1
+  profile: dev
+  cloud:
+    config:
+      label: master # 当configserver的后端存储是Git时，默认是master
+      uri: http://localhost:8091
+      discovery:
+        service-id: configServer  #文件服务的服务名
+        enabled: true #开启Config服务发现支持
+
+## 配置服务器使用本地配置(默认为git配置)
+##非SSL端口，若环境变量中server.port有值，则使用环境变量值，没有则使用8080
+## 配置eureka Server的实例id
+#5 Eureka客户端设置Eureka Server的地址
+eureka:
+  instance:
+    non-secure-port: ${server.port:8888} #3
+    prefer-ip-address: true
+    metadata-map:
+      instanceId: ${spring.application.name}:${random.value} #4
+  client:
+    service-url:
+      defaultZone: http://${eureka.host:localhost}:${eureka.port:8761}/eureka/     # 指定服务注册中心的位置
+ #http://user:password@localhost:${server.port}/eureka
+# http://${eureka.host:localhost}:${eureka.port:8761}/eureka/
+
+# profile: abc
+
+
