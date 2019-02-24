@@ -21,6 +21,8 @@
         <module>discovery-gateway-zuul-reg-exp</module>
         <module>microservice-file-upload</module>
         <module>microservice-sidecar</module>
+        <module>microservice-config-client</module>
+        <module>microservice-config-server</module>
         <module>consumer-movie</module>
         <module>consumer-movie-feign</module>
         <module>consumer-movie-feign-with-hystrix</module>
