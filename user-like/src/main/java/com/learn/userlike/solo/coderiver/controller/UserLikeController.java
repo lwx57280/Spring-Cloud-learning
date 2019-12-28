@@ -23,8 +23,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 @Slf4j
-@RestController("/user")
+@RestController
 @Api(description = "用户服务")
+@RequestMapping("/user")
 public class UserLikeController {
 
     @Autowired

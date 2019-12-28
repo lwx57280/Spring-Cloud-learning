@@ -1,7 +1,6 @@
 package com.learn.userlike.solo.coderiver.config;
 
 
-import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +24,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
 
@@ -72,10 +70,13 @@ public class RedisConfig extends CachingConfigurerSupport {
         LOGGER.info("spring.redis.timeout: {}", factory.getTimeout());
         LOGGER.info("spring.redis.password: {}", factory.getPassword());
 
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        // key序列化方式,但是如果方法上有Long等非String类型的话，会报类型转换错误
+        redisTemplate.setKeySerializer(jackson2JsonRedisSerializer);
         // 设置value的序列化规则和 key的序列化规则
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
-        // key序列化方式,但是如果方法上有Long等非String类型的话，会报类型转换错误
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashKeySerializer(jackson2JsonRedisSerializer);
+        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
@@ -109,7 +110,8 @@ public class RedisConfig extends CachingConfigurerSupport {
     }
 
     private RedisSerializer<Object> getRedisSerializer() {
-        return new GenericFastJsonRedisSerializer();
+        //return new GenericFastJsonRedisSerializer();
+        return new Jackson2JsonRedisSerializer(Object.class);
     }
 
 

@@ -2,7 +2,7 @@ package com.learn.userlike.solo.coderiver.croe;
 
 import com.learn.userlike.solo.coderiver.util.LocaleUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
 
 import java.util.Locale;
@@ -11,7 +11,7 @@ import java.util.Locale;
 public class PropertyConfig  {
 
     @Autowired
-    private static MessageSource messageSource;
+    private static ReloadableResourceBundleMessageSource messageSource;
 
 
     /**

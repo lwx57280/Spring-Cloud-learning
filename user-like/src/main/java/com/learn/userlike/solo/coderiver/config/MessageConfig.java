@@ -14,6 +14,7 @@ public class MessageConfig {
     @Bean(name = "messageSource")
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageBundle = new ReloadableResourceBundleMessageSource();
+        // 刷新资源文件的周期，以秒为单位
         messageBundle.setCacheSeconds(0);
         messageBundle.setBasenames("classpath:messages/user","classpath:messages/clean");
 //        messageBundle.setBasenames("/messages/user","/messages/clean");
