@@ -4,6 +4,7 @@ import com.learn.userlike.solo.coderiver.dataobject.UserLike;
 import com.learn.userlike.solo.coderiver.dto.LikedCountDTO;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public interface RedisService {
 
@@ -50,4 +51,33 @@ public interface RedisService {
      * @return
      */
     List<LikedCountDTO> getLikedCountFromRedis();
+
+    /**
+     * 分布式锁
+     * @param lock
+     * @return
+     */
+    void distributedLock(String lock,int realStock);
+
+
+    int getDistributedLock(String lock);
+
+    Boolean abSent(String lockKey, String tag);
+
+
+    void deleteLock(String lockKey);
+    /**
+     * 超时策略
+     * @author      li cong zhi
+     * @param       key 键值
+     * @return
+     * @exception
+     * @date        2020/1/30 12:51
+     */
+    void lockTimeOut(String lockKey, long timeOut, TimeUnit unit);
+
+    void expire(String lockKey,String param, long timeOut, TimeUnit unit);
+
+
+    String getLock(String key);
 }

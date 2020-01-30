@@ -1,6 +1,6 @@
 package com.learn.userlike.solo.coderiver.service.impl;
 
-import com.learn.userlike.solo.coderiver.constant.RedisConsts;
+import com.learn.userlike.solo.coderiver.constant.RedisConstans;
 import com.learn.userlike.solo.coderiver.croe.PropertyConfig;
 import com.learn.userlike.solo.coderiver.dataobject.UserInfo;
 import com.learn.userlike.solo.coderiver.dto.ExperienceDTO;
@@ -10,22 +10,26 @@ import com.learn.userlike.solo.coderiver.exception.ResultEnum;
 import com.learn.userlike.solo.coderiver.exception.UserException;
 import com.learn.userlike.solo.coderiver.repository.UserInfoRepository;
 import com.learn.userlike.solo.coderiver.service.UserService;
+import com.learn.userlike.solo.coderiver.util.KeyUtils;
 import com.learn.userlike.solo.coderiver.util.ObjectUtils;
 import com.learn.userlike.solo.coderiver.util.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-
     @Autowired
+    @Qualifier("userInfoRepository")
     UserInfoRepository userInfoRepository;
 
     @Autowired
@@ -41,7 +45,9 @@ public class UserServiceImpl implements UserService {
         UserInfo info = userInfoRepository.findUserInfoByEmail(userInfo.getEmail());
         if (ObjectUtils.isNotNull(info)) {
             //  已经注册过了,抛出已注册异常
-            throw new UserException(ResultEnum.EMAIL_ALREADY_REGISTER.getCode());
+            String property = PropertyConfig.getProperty(ResultEnum.EMAIL_ALREADY_REGISTER.getCode().toString(), new Object[]{"请"});
+            log.error("============property============" + property);
+            throw new UserException(ResultEnum.EMAIL_ALREADY_REGISTER);
         }
         //  没有被注册过，则存入数据库
         UserInfo user = new UserInfo();
@@ -49,7 +55,7 @@ public class UserServiceImpl implements UserService {
         UserInfo saveUserInfo = userInfoRepository.save(user);
         if (ObjectUtils.isNull(saveUserInfo)) {
             throw new UserException(ResultEnum.REGISTER_FAIL.getCode()
-                    ,ResultEnum.REGISTER_FAIL.getMessage());
+                    , ResultEnum.REGISTER_FAIL.getMessage());
         }
         UserInfoDTO userInfoDTO = new UserInfoDTO();
         BeanUtils.copyProperties(saveUserInfo, userInfoDTO);
@@ -58,13 +64,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserInfo updateInfo(UserInfo userInfo) {
         return userInfoRepository.save(userInfo);
     }
 
+    private UserInfoDTO convertToDTO(UserInfo user) {
+
+        UserInfoDTO userInfoDTO = new UserInfoDTO();
+        if (ObjectUtils.isNotNull(user)) {
+            BeanUtils.copyProperties(user, userInfoDTO);
+            return userInfoDTO;
+        }
+        return userInfoDTO;
+    }
+
     @Override
     public UserInfoDTO loginByEmail(String email, String password) {
-        return null;
+        UserInfo userInfo = userInfoRepository.findUserInfoByEmail(email);
+        if (ObjectUtils.isNull(userInfo)) {
+            throw new UserException(ResultEnum.EMAIL_NOT_EXIST);
+        }
+        if (!userInfo.getPassword().equals(password)) {
+            throw new UserException(ResultEnum.PASSWORD_ERROR);
+        }
+        // 生成 token 并保存在 Redis 中
+        String token = KeyUtils.genUniqueKey();
+        // 将token存储在 Redis 中。键是 TOKEN_用户id, 值是token
+        redisUtils.setString(String.format(RedisConstans.TOKEN_TEMPLATE, userInfo.getId()), token, 2L, TimeUnit.HOURS);
+        UserInfoDTO userInfoDTO = convertToDTO(userInfo);
+        userInfoDTO.setToken(token);
+        return userInfoDTO;
     }
 
     @Override
@@ -75,18 +105,34 @@ public class UserServiceImpl implements UserService {
     @Override
     public void logout(String userId) {
         // 从 Redis 中删除当前用户对应的key
-        String key = String.format(RedisConsts.TOKEN_TEMPLATE,userId);
+        String key = String.format(RedisConstans.TOKEN_TEMPLATE, userId);
         redisUtils.deleteString(key);
     }
 
     @Override
     public UserInfo findById(String id) {
-        return null;
+        return userInfoRepository.findUserInfoById(id);
     }
 
     @Override
+    @Transactional
     public UserInfo resetPassword(String id, String oldPassword, String newPassword) {
-        return null;
+        UserInfo userInfo = userInfoRepository.findUserInfoById(id);
+        if (ObjectUtils.isNull(userInfo)) {
+            throw new UserException(ResultEnum.CANNOT_FIND_USER_INFO);
+        }
+        String password = userInfo.getPassword();
+        //先校验旧密码
+        if (!password.equalsIgnoreCase(oldPassword)) {
+            throw new UserException(ResultEnum.PASSWORD_ERROR);
+        }
+        //密码校验通过保存新密码
+        userInfo.setPassword(newPassword);
+        UserInfo user = updateInfo(userInfo);
+        if (ObjectUtils.isNull(user)) {
+            throw new UserException(ResultEnum.RESET_PASSWORD_FAIL);
+        }
+        return user;
     }
 
     @Override

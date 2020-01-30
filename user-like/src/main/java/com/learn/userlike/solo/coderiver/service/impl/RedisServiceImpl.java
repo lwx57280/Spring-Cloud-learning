@@ -6,6 +6,7 @@ import com.learn.userlike.solo.coderiver.dataobject.UserLike;
 import com.learn.userlike.solo.coderiver.dto.LikedCountDTO;
 import com.learn.userlike.solo.coderiver.service.RedisService;
 import com.learn.userlike.solo.coderiver.util.RedisKeyUtils;
+import com.learn.userlike.solo.coderiver.util.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.Cursor;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
@@ -23,6 +25,8 @@ public class RedisServiceImpl implements RedisService {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    RedisUtils redisUtils;
 
     @Override
     public void saveLiked2Redis(String likedUserId, String likedPostId) {
@@ -88,5 +92,40 @@ public class RedisServiceImpl implements RedisService {
             redisTemplate.opsForHash().delete(RedisKeyUtils.MAP_KEY_USER_LIKED_COUNT, key);
         }
         return list;
+    }
+
+    @Override
+    public void distributedLock(String lock,int realStock) {
+        redisTemplate.opsForValue().set("stock",realStock);
+    }
+
+    @Override
+    public void deleteLock(String lockKey) {
+        redisUtils.deleteString(lockKey);
+    }
+
+    @Override
+    public Boolean abSent(String lockKey, String tag) {
+        return redisTemplate.opsForValue().setIfAbsent(lockKey,tag);
+    }
+
+    @Override
+    public void expire(String lockKey, String param,long timeOut, TimeUnit unit) {
+        redisUtils.setString(lockKey,param,timeOut,unit);
+    }
+
+    @Override
+    public void lockTimeOut(String lockKey, long timeOut, TimeUnit unit) {
+        redisTemplate.expire(lockKey, timeOut, unit);
+    }
+
+    @Override
+    public String getLock(String key) {
+        return redisUtils.getString(key);
+    }
+
+    @Override
+    public int getDistributedLock(String lock) {
+        return Integer.parseInt(redisTemplate.opsForValue().get(lock).toString());
     }
 }

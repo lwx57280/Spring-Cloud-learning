@@ -77,6 +77,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
         redisTemplate.setHashKeySerializer(jackson2JsonRedisSerializer);
         redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
+        // 调用后完成设置
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
@@ -100,7 +101,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         //  redis默认配置文件,并且设置过期时间
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 // 设置缓存有效期60秒
-                .entryTtl(Duration.ofHours(30))
+                .entryTtl(Duration.ofHours(60 * 2))
                 .serializeValuesWith(serializationPair);
 
         //  RedisCacheManager 生成器创建

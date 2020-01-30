@@ -26,5 +26,12 @@ public class RedisUtils {
         stringRedisTemplate.delete(key);
 
     }
+    public boolean setAbsent(String key,String value) {
+        return stringRedisTemplate.opsForValue().setIfAbsent(key, value);
+    }
+
+    public String getString(String key) {
+        return stringRedisTemplate.opsForValue().get(key);
+    }
 }
 
