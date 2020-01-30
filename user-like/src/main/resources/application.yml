@@ -1,0 +1,82 @@
+spring:
+  # 数据库连接
+  datasource:
+#    username: root
+#    password: 123456
+#    url: jdbc:mysql://192.168.1.101:3306/school?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8
+    #    url: jdbc:mysql://192.168.1.101:3306/school?useUnicode=true&amp;characterEncoding=UTF-8&amp;useJDBCCompliantTimezoneShift=true&amp;allowMultiQueries=true&amp;useSSL=false&amp;serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      username: root
+      password: 123456
+      url: jdbc:mysql://192.168.1.101:3306/school?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8
+      # 下面为连接池的补充设置，应用到上面所有数据源中
+      # 初始化大小，最小，最大
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,wall
+      use-global-data-source-stat: true
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 配置监控服务器
+      stat-view-servlet:
+        login-username: admin
+        login-password: 123456
+        reset-enable: false
+        url-pattern: /druid/*
+        # 添加IP白名单  訪問地址 http://localhost:8080/druid/index.html
+        #allow:
+        # 添加IP黑名单，当白名单和黑名单重复时，黑名单优先级更高
+        #deny:
+      web-stat-filter:
+        # 添加过滤规则
+        url-pattern: /*
+        # 忽略过滤格式
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+
+
+  jpa:
+    show-sql: true
+    open-in-view: false
+    database: mysql
+
+  # 如果字段值为null则不返回
+  jackson:
+    default-property-inclusion: non_null
+
+  redis:
+      port: 6379
+      host: 192.168.1.101 # Redis服务器地址
+      # Redis服务器连接密码（默认为空）
+      password: test@dbuser2019
+      timeout: 5000ms     #连接超时时间（毫秒）
+#      cluster:
+#        nodes: 192.168.1.101:6379,192.168.1.101:6380,192.168.1.101:6381
+        #        - 192.168.1.101: 6379
+        #        - 192.168.1.101: 6380
+        #        - 192.168.1.101: 6381
+        #max-redirects: 3  # 获取失败 最大重定向次数
+      lettuce:
+        pool:
+          max-active: 8   #连接池最大连接数（使用负值表示没有限制）
+          max-wait: -1ms  #连接池最大阻塞等待时间（使用负值表示没有限制）
+          max-idle: 8     #连接池中的最大空闲连接
+          min-idle: 2     #连接池中最小连接数
+
+  cache:
+    type: redis          #一般来说是不用配置的，SpringCache会根据依赖的包自行装配---》springcache 指定redis做缓存
