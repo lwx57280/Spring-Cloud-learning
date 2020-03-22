@@ -26,9 +26,9 @@ public class RedisKeyUtils {
      */
     public static String getLikedKey(String likedUserId, String likedPostId) {
         StringBuilder builder = new StringBuilder();
-        builder.append(likedUserId);
-        builder.append("::");
-        builder.append(likedPostId);
+        builder.append(likedUserId)
+                .append("::")
+                .append(likedPostId);
         return builder.toString();
     }
 }
