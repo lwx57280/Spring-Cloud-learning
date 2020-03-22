@@ -81,12 +81,13 @@ public class ProductServiceImpl implements ProductService {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }finally {
+                stock.put(productId, number);
+                // 解锁
+                redisLock.unLock(productId, String.valueOf(time));
             }
-            stock.put(productId, number);
         }
         log.info("共抢购 {} 件，抢购详情:{}", orders.size(), orders);
-        // 解锁
-        redisLock.unLock(productId, String.valueOf(time));
         //再返回商品的抢购详情
         return this.queryMap(productId);
     }
